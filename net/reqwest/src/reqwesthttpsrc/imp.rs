@@ -129,7 +129,6 @@ enum State {
         seekable: bool,
         position: u64,
         size: Option<u64>,
-        stop: Option<u64>,
         caps: Option<gst::Caps>,
         tags: Option<gst::TagList>,
     },
@@ -619,7 +618,6 @@ impl ReqwestHttpSrc {
             seekable,
             position,
             size,
-            stop,
             caps,
             tags: if tags.n_tags() > 0 { Some(tags) } else { None },
         })
@@ -1112,13 +1110,11 @@ impl BaseSrcImpl for ReqwestHttpSrc {
 
         let mut state = self.state.lock().unwrap();
 
-        let (position, old_stop, uri) = match *state {
+        let uri = match *state {
             State::Started {
-                position,
-                stop,
                 ref uri,
                 ..
-            } => (position, stop, uri.clone()),
+            } => uri.clone(),
             State::Stopped => {
                 gst::element_imp_error!(self, gst::LibraryError::Failed, ["Not started yet"]);
 
@@ -1130,11 +1126,6 @@ impl BaseSrcImpl for ReqwestHttpSrc {
         let stop = segment.stop().map(|stop| *stop);
 
         gst::debug!(CAT, imp = self, "Seeking to {}-{:?}", start, stop);
-
-        if position == start && old_stop == stop {
-            gst::debug!(CAT, imp = self, "No change to current request");
-            return true;
-        }
 
         *state = State::Stopped;
         match self.do_request(uri, start, stop) {
@@ -1238,10 +1229,8 @@ impl PushSrcImpl for ReqwestHttpSrc {
             }
         };
 
-        match res {
-            Some(chunk) => {
-                /* do something with the chunk and store the body again in the state */
-
+        if let Some(chunk) = res {
+            if !chunk.is_empty() {
                 gst::trace!(
                     CAT,
                     imp = self,
@@ -1250,7 +1239,6 @@ impl PushSrcImpl for ReqwestHttpSrc {
                     offset
                 );
                 let size = chunk.len();
-                assert_ne!(chunk.len(), 0);
 
                 *position += size as u64;
 
@@ -1264,15 +1252,14 @@ impl PushSrcImpl for ReqwestHttpSrc {
                     buffer.set_offset_end(offset + size as u64);
                 }
 
-                Ok(CreateSuccess::NewBuffer(buffer))
-            }
-            None => {
-                /* No further data, end of stream */
-                gst::debug!(CAT, imp = self, "End of stream");
-                *response = Some(current_response);
-                Err(gst::FlowError::Eos)
+                return Ok(CreateSuccess::NewBuffer(buffer));
             }
         }
+
+        /* No further data, end of stream */
+        gst::debug!(CAT, imp = self, "End of stream");
+        *response = Some(current_response);
+        Err(gst::FlowError::Eos)
     }
 }
 
