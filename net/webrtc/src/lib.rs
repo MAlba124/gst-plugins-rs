@@ -22,15 +22,19 @@ mod janusvr_signaller;
 mod livekit_signaller;
 pub mod signaller;
 pub mod utils;
+#[cfg(feature = "sink")]
 pub mod webrtcsink;
+#[cfg(feature = "src")]
 pub mod webrtcsrc;
-#[cfg(feature = "whep")]
+#[cfg(any(feature = "whep", feature = "whep-client"))]
 mod whep_signaller;
 #[cfg(feature = "whip")]
 mod whip_signaller;
 
 fn plugin_init(plugin: &gst::Plugin) -> Result<(), glib::BoolError> {
+    #[cfg(feature = "sink")]
     webrtcsink::register(plugin)?;
+    #[cfg(feature = "src")]
     webrtcsrc::register(Some(plugin))?;
 
     Ok(())

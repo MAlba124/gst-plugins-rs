@@ -70,7 +70,7 @@ unsafe impl<T: BaseWebRTCSrcImpl> IsSubclassable<T> for super::BaseWebRTCSrc {
         Self::parent_class_init::<T>(class);
     }
 }
-pub(crate) trait BaseWebRTCSrcImpl:
+pub trait BaseWebRTCSrcImpl:
     BinImpl + ObjectSubclass<Type: IsA<super::BaseWebRTCSrc>>
 {
 }
@@ -3257,7 +3257,7 @@ pub(super) mod janus {
     }
 }
 
-#[cfg(feature = "whep")]
+#[cfg(feature = "whep-client")]
 pub(super) mod whep {
     use super::*;
     use crate::whep_signaller::WhepClientSignaller;
