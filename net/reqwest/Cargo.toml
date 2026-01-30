@@ -19,7 +19,7 @@ tokio = { version = "1.0", default-features = false, features = ["time", "rt-mul
 
 [target.'cfg(target_os = "linux")'.dependencies]
 rustls = { version = "0.23", default-features = false, features = [ "prefer-post-quantum", "tls12", "std", "ring" ]}
-reqwest = { version = "0.13", default-features = false, features = [ "charset", "http2", "system-proxy", "cookies", "gzip" ] }
+reqwest = { version = "0.13", default-features = false, features = [ "charset", "http2", "system-proxy", "cookies", "gzip", "default-tls" ] }
 
 [target.'cfg(target_os = "android")'.dependencies]
 reqwest = { version = "0.13", default-features = false, features = [ "native-tls", "charset", "http2", "system-proxy", "cookies", "gzip" ] }
