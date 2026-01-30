@@ -3226,7 +3226,7 @@ pub(super) mod janus {
     }
 }
 
-#[cfg(feature = "whep")]
+#[cfg(feature = "whep-client")]
 pub(super) mod whep {
     use super::*;
     use crate::whep_signaller::WhepClientSignaller;

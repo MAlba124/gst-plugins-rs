@@ -103,6 +103,7 @@ livekit = ["dep:livekit-protocol", "dep:livekit-api"]
 whip = ["dep:reqwest", "dep:warp", "dep:ctrlc"]
 web_server = ["dep:warp"]
 whep = ["dep:reqwest", "dep:warp"]
+whep-client = ["dep:reqwest"]
 
 [package.metadata.capi]
 min_version = "0.9.21"

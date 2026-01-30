@@ -64,7 +64,7 @@ glib::wrapper! {
     pub struct JanusVRWebRTCSrc(ObjectSubclass<imp::janus::JanusVRWebRTCSrc>) @extends BaseWebRTCSrc, gst::Bin, gst::Element, gst::Object, @implements gst::URIHandler, gst::ChildProxy;
 }
 
-#[cfg(feature = "whep")]
+#[cfg(feature = "whep-client")]
 glib::wrapper! {
     pub struct WhepClientSrc(ObjectSubclass<imp::whep::WhepClientSrc>) @extends BaseWebRTCSrc, gst::Bin, gst::Element, gst::Object, @implements gst::URIHandler, gst::ChildProxy;
 }
@@ -196,7 +196,7 @@ pub fn register(plugin: Option<&gst::Plugin>) -> Result<(), glib::BoolError> {
         JanusVRWebRTCSrc::static_type(),
     )?;
 
-    #[cfg(feature = "whep")]
+    #[cfg(feature = "whep-client")]
     gst::Element::register(
         plugin,
         "whepclientsrc",
