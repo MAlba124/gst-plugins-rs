@@ -162,7 +162,8 @@ gst-gl-wayland = { package = "gstreamer-gl-wayland", version = "0.24" }
 gst-gl-x11 = { package = "gstreamer-gl-x11", version = "0.24" }
 gst-net = { package = "gstreamer-net", version = "0.24" }
 gst-pbutils = { package = "gstreamer-pbutils", version = "0.24" }
-gst-plugin-version-helper = { path="./version-helper", version = "0.8" }
+# gst-plugin-version-helper = { path="./version-helper", version = "0.8" }
+gst-plugin-version-helper = { version = "0.8" }
 gst-rtp = { package = "gstreamer-rtp", version = "0.24" }
 gst-sdp = { package = "gstreamer-sdp", version = "0.24" }
 gst-tag = { package = "gstreamer-tag", version = "0.24" }
