@@ -17,7 +17,7 @@ num_cpus = "1.0"
 
 [lib]
 name = "gstdav1d"
-crate-type = ["cdylib", "rlib"]
+crate-type = ["rlib"]
 path = "src/lib.rs"
 
 [build-dependencies]

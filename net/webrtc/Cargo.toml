@@ -82,7 +82,7 @@ serial_test = {version = "3.3.1", features = ["file_locks"]}
 
 [lib]
 name = "gstrswebrtc"
-crate-type = ["cdylib", "rlib"]
+crate-type = ["rlib"]
 path = "src/lib.rs"
 
 [build-dependencies]

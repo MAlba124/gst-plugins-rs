@@ -50,7 +50,7 @@ gst-plugin-version-helper.workspace = true
 
 [lib]
 name = "gstrsrtp"
-crate-type = ["cdylib", "rlib"]
+crate-type = ["rlib"]
 path = "src/lib.rs"
 
 [features]
